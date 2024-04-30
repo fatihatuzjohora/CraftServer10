@@ -7,7 +7,7 @@ const app = express();
 const port = process.env.PORT || 5000;
 //-------------------------------
 
-app.use(cors());
+app.use(cors({ origin:'*'}));
 app.use(express.json());
 //----------------------------
 
@@ -29,14 +29,23 @@ async function run() {
     //---------------------------------------------------------
 
     const craftCollection = client.db("craftDB").collection("craft");
-   // const userCollection = client.db("craftDB").collection("user");
-
+    const artCollection = client.db("craftDB").collection("craftcatagoris");
+    // artDB
     //-------------------------------
 
     app.get("/craft", async (req, res) => {
       const cursor = craftCollection.find();
       const result = await cursor.toArray();
       res.send(result);
+    });
+    //------------------------------- extra
+
+    app.get("/art", async (req, res) => {
+      const cursor = artCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    //  console.log(result);
+
     });
 
     //-------------------------------------------------------
@@ -81,7 +90,6 @@ async function run() {
       res.send(result);
     });
 
-    //--------------------------------------------------
 
     
 
@@ -97,7 +105,7 @@ async function run() {
     });
 
 
-    
+
     //----------------------------------------------------------
 
     console.log(
